@@ -34,10 +34,39 @@ jobs:
     - name: Run Playwright tests
       run: npx playwright test
       env:
-        APP_URL: ${{ inputs.app_url || '' }}
-    - uses: actions/upload-artifact@v4
+        INPUT_APP_URL: ${{ inputs.app_url }}
+    - name: Upload Playwright HTML report
+      uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Download the report artifact from previous job
+      - name: Download report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+
+      # Prepare GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # Upload report to GitHub Pages
+      - name: Upload report to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: playwright-report
+
+      # Deploy
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
