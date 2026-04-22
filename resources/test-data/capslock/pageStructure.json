@@ -1,0 +1,187 @@
+{
+    "sections" : [
+        {
+            "blocks" : [
+                {
+                    "type" : "title",
+                    "content" : "Here’s Why So Many Seniors Have Added This"
+                },
+                {
+                    "type" : "video"
+                },
+                {
+                    "type" : "list",
+                    "items" : [
+                        "Hydrotherapy & air jets",
+                        "Targeted back, leg, wrist and foot massaging jets",
+                        "Fast-drain technology",
+                        "Heated backrest",
+                        "Patented leak-free door system",
+                        "Ultra-low step-in",
+                        "Extra-wide entry door",
+                        "Slip-resistant surfaces",
+                        "easy-to-grip handrails",
+                        "Bath walls"
+                    ]
+                }
+            ]
+        },
+        {
+            "blocks" : [
+                {
+                    "type" : "image"
+                },
+                {
+                    "type" : "content"
+                }
+            ]
+        },
+        {
+            "blocks" : [
+                {
+                    "type" : "title"
+                },
+                {
+                    "type" : "video"
+                }
+            ]
+        },
+        {
+            "blocks" : [
+                {
+                    "type" : "title"
+                },
+                {
+                    "type" : "image"
+                },
+                {
+                    "type": "subBlocks", 
+                    "class": "healthBlock",
+                    "number" : 8,
+                    "content" : [ {"type": "icon"}, {"type": "content"} ]
+                }
+            ]
+        }, 
+        {
+            "blocks" : [
+                {
+                    "type" : "title"
+                },
+                {
+                    "type" : "slider",
+                    "number" : 22
+                }
+            ]
+        },
+        {
+            "blocks" : [
+                {
+                    "type" : "image"
+                },
+                {
+                    "type" : "title"
+                }
+            ]
+        },
+        {
+            "blocks" : [
+                {
+                    "type" : "title"
+                },
+                {
+                    "type" : "form",
+                    "elements" : [ "title", "input", "submit" ]
+                }
+            ]
+        },
+        {
+            "blocks" : [
+                {
+                    "type" : "title"
+                },
+                {
+                    "type" : "subBlocks",
+                    "class" : "howBlock",
+                    "number" : 3,
+                    "content" : [
+                        [
+                            {
+                                "type" : "image"
+                            },
+                            {
+                                "type" : "header"
+                            },
+                            {
+                                "type": "text" 
+                            }
+                        ],
+                        [
+                            {
+                                "type" : "image"
+                            },
+                            {
+                                "type" : "header"
+                            },
+                            {
+                                "type": "text" 
+                            }
+                        ],
+                        [
+                            {
+                                "type" : "image"
+                            },
+                            {
+                                "type" : "header",
+                                "content" : "Safety Features"
+                            },
+                            {
+                                "type" : "list",
+                                "items" : [
+                                    "Ultra-Low Entry",
+                                    "Easy-to-Grip Handrails",
+                                    "Extra-Wide Door",
+                                    "Control Panel",
+                                    "Slip-Resistant Surfaces"
+                                ]
+                            }
+                        ]
+
+                    ]
+                }
+
+            ]
+        },
+        {
+            "blocks" : [
+                {
+                    "type" : "title",
+                    "content" : "Bath Walls"
+                },
+                {
+                    "type" : "video"
+                },
+                {
+                    "type" : "content"
+                }
+            ]
+        },
+        {
+            "blocks" : [
+                {
+                    "type" : "reviews"
+                }
+            ]
+        },
+        {
+            "blocks" : [
+                {
+                    "type" : "title"
+                },
+                {
+                    "type" : "form",
+                    "elements" : [ "title", "input", "submit" ]
+                }
+            ]
+        }
+    ]
+}

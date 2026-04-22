@@ -1,0 +1,15 @@
+{
+  "include": [
+    "src/**/*",
+    "playwright.config.ts"
+  ],  
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "types": ["node"]
+    // ...existing options...
+  }
+  // ...existing config...
+}
