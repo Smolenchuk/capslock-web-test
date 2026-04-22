@@ -51,13 +51,11 @@ jobs:
       env:
         INPUT_APP_URL: ${{ inputs.app_url }}
         
-    - name: Upload Playwright HTML report
+    - name: Upload shard report artifact
       uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
       with:
         name: shard-${{ matrix.shard }}
         path: blob-report/
-        retention-days: 30
 
   merge-and-publish:
     needs: run-tests
