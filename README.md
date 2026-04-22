@@ -179,3 +179,40 @@ Tests run against three browser engines:
 - Chromium (Desktop Chrome)
 - Firefox (Desktop Firefox)
 - WebKit (Desktop Safari)
+
+## Issues Found
+
+01. Severity: Low.  
+Description: The list item “easy‑to‑grip handrails” should start with a capital letter.
+
+02. Severity: Low.  
+Description: The Bathroom Slips statistics quote should include a single asterisk to link to the research source.
+
+03. Severity: Medium.  
+Description: Progress is displayed incorrectly for the ZIP out‑of‑area flow:
+– 20% instead of 50% on the first step
+– 20% instead of 100% on the second step
+
+04. Severity: Medium.  
+Description: Steps are displayed incorrectly for the ZIP out‑of‑area flow:
+– “1 of ” is shown for both the first and second steps instead of “1 of 2” and “2 of 2”.
+
+05. Severity: Medium.  
+Description: No item is required to proceed on step 2 of the Service Available flow.
+
+06. Severity: Medium.  
+Description: The step indicator is incorrect on step 3 of the Service Available flow:
+– Displays “2 of 5” instead of “3 of 5”.
+
+07. Severity: Medium.  
+Description: Progress is displayed incorrectly for the Service Available flow:
+– 36% instead of 40% on step 2
+– 36% instead of 60% on step 3
+– 52% instead of 80% on step 4
+
+08. Severity: Medium.  
+Description: Inconsistent validation message for the email field on step 4 of the Service Available flow:
+– A tooltip is shown instead of an error message below the field.
+
+09. Severity: High.  
+Description: It is not possible to enter the digit “1” into the phone field on step 5 of the Service Available flow.

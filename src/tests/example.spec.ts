@@ -121,7 +121,7 @@ test.describe("Example test suite", () => {
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
       expect.soft(await contactForm.getProgressStepText()).toBe(`1 of 2`);
-      expect.soft(await contactForm.getProgressBarState()).toBe(`50`);
+      expect.soft(await contactForm.getProgressBarState()).toBe(`50%`);
 
       await contactForm.chooseFormByName("sorry_email");
       expect(await contactForm.getTitle()).toBe(
@@ -132,7 +132,7 @@ test.describe("Example test suite", () => {
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
       expect.soft(await contactForm.getProgressStepText()).toBe(`2 of 2`);
-      expect.soft(await contactForm.getProgressBarState()).toBe(`100`);
+      expect.soft(await contactForm.getProgressBarState()).toBe(`100%`);
       expect(await contactForm.getTitle()).toBe(
         `Thank you for your interest, we will contact you when our service becomes available in your area!`,
       );
@@ -261,7 +261,7 @@ test.describe("Example test suite", () => {
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
       expect.soft(await contactForm.getProgressStepText()).toBe(`2 of 5`);
-      expect.soft(await contactForm.getProgressBarState()).toBe(`40`);
+      expect.soft(await contactForm.getProgressBarState()).toBe(`40%`);
 
       await contactForm.chooseFormByName("why_interested");
       await contactForm.chooseQuizCardByindex(0);
@@ -269,7 +269,7 @@ test.describe("Example test suite", () => {
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
       expect.soft(await contactForm.getProgressStepText()).toBe(`3 of 5`);
-      expect.soft(await contactForm.getProgressBarState()).toBe(`60`);
+      expect.soft(await contactForm.getProgressBarState()).toBe(`60%`);
 
       await contactForm.chooseFormByName("type_of_property");
       await contactForm.chooseQuizCardByindex(0);
@@ -277,7 +277,7 @@ test.describe("Example test suite", () => {
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
       expect.soft(await contactForm.getProgressStepText()).toBe(`4 of 5`);
-      expect.soft(await contactForm.getProgressBarState()).toBe(`80`);
+      expect.soft(await contactForm.getProgressBarState()).toBe(`80%`);
 
       await contactForm.chooseFormByName("name_and_email");
       await contactForm.fillInputFieldByname("name", "John Doe");
@@ -286,7 +286,7 @@ test.describe("Example test suite", () => {
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
       expect.soft(await contactForm.getProgressStepText()).toBe(`5 of 5`);
-      expect.soft(await contactForm.getProgressBarState()).toBe(`100`);
+      expect.soft(await contactForm.getProgressBarState()).toBe(`100%`);
 
       await contactForm.chooseFormByName("phone");
       await contactForm.fillInputField("2345678900");
