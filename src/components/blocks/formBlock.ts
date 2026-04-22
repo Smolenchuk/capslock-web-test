@@ -127,7 +127,7 @@ export class FormBlock extends BaseBlock {
   public async getProgressBarState(): Promise<string> {
     const progressBarState = await this.parentElement
       .locator(this.progressbarSelector)
-      .getAttribute("data-current-progress");
+      .evaluate((el) => el.style.width);
     return progressBarState ? progressBarState : "";
   }
 
