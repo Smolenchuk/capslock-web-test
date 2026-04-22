@@ -32,9 +32,13 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      run: |
+        if [ -n "$INPUT_APP_URL" ]; then
+          export APP_URL="$INPUT_APP_URL"
+        fi
+        npx playwright test
       env:
-        APP_URL: ${{ inputs.app_url || '' }}
+        INPUT_APP_URL: ${{ inputs.app_url }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
