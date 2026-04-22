@@ -62,6 +62,7 @@ jobs:
   merge-and-publish:
     needs: run-tests
     runs-on: ubuntu-latest
+    if: always() && github.ref == 'refs/heads/main'
 
     steps:
       - uses: actions/checkout@v4
