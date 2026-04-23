@@ -216,3 +216,21 @@ Description: Inconsistent validation message for the email field on step 4 of th
 
 09. Severity: High.  
 Description: It is not possible to enter the digit “1” into the phone field on step 5 of the Service Available flow.
+
+## Covered Test Scenarios
+
+[ List of scenarios covered by autotests](./docs/test-cases.md)
+
+## Tests To Implement
+
+- As page contains 2 Contact Form and interaction with one form affects the second one, test should verify that changes in both forms are synchronized.
+- Verify combination of quiz cards selected to allow user to proceed to next step.
+- Additional tests to verify label and behavior of forms' components.
+
+## What To Improve
+
+- Switch to Allure report instead of Playwright's default
+- Improve and extend basic verification of blocks components
+- Review current approach against other landing pages to find weak points
+- Add connection to ALM system to post test execution results, update stories statuses, skip tests if they are blocked with by issues
+- Review and improve linting rules
