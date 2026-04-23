@@ -61,7 +61,7 @@ test.describe("Example test suite", () => {
   });
 
   [1, 2].forEach((i) => {
-    test.skip(`verify out of area flow ${i} - invalid emails @priority=p0 @testcase=TC-005`, async ({ basePage }) => {
+    test(`verify out of area flow ${i} - invalid emails @priority=p0 @testcase=TC-005`, async ({ basePage }) => {
       await basePage.openBasePage();
       const contactForm = await basePage.getContactForm(i);
       await contactForm.fillInputField(outOfAreaZIP);
@@ -90,7 +90,7 @@ test.describe("Example test suite", () => {
 
   [1, 2].forEach((i) => {
     validEmails.forEach((email) => {
-      test.skip(`verify out of area flow ${i} - valid email: ${email} @priority=p0 @testcase=TC-006`, async ({
+      test(`verify out of area flow ${i} - valid email: ${email} @priority=p0 @testcase=TC-006`, async ({
         basePage,
       }) => {
         await basePage.openBasePage();
@@ -112,7 +112,7 @@ test.describe("Example test suite", () => {
   });
 
   [1, 2].forEach((i) => {
-    test.skip(`verify out of area flow ${i} - progress update @priority=p0 @testcase=TC-007`, async ({ basePage }) => {
+    test(`verify out of area flow ${i} - progress update @priority=p0 @testcase=TC-007`, async ({ basePage }) => {
       await basePage.openBasePage();
       const contactForm = await basePage.getContactForm(i);
       expect(await contactForm.isStepProgressVisible()).toBe(false);
@@ -140,7 +140,7 @@ test.describe("Example test suite", () => {
   });
 
   [1, 2].forEach((i) => {
-    test.skip(`verify service available flow - step 2 - all fields required ${i} @priority=p0 @testcase=TC-008`, async ({
+    test(`verify service available flow - step 2 - all fields required ${i} @priority=p0 @testcase=TC-008`, async ({
       basePage,
     }) => {
       await basePage.openBasePage();
@@ -160,7 +160,7 @@ test.describe("Example test suite", () => {
   });
 
   [1, 2].forEach((i) => {
-    test.skip(`verify service available flow - step 3 - all fields required ${i} @priority=p0 @testcase=TC-009`, async ({
+    test(`verify service available flow - step 3 - all fields required ${i} @priority=p0 @testcase=TC-009`, async ({
       basePage,
     }) => {
       await basePage.openBasePage();
@@ -185,7 +185,7 @@ test.describe("Example test suite", () => {
   });
 
   [1, 2].forEach((i) => {
-    test.skip(`verify service available flow - step 4 - all fields required ${i} @priority=p0 @testcase=TC-010`, async ({
+    test(`verify service available flow - step 4 - all fields required ${i} @priority=p0 @testcase=TC-010`, async ({
       basePage,
     }) => {
       await basePage.openBasePage();
@@ -220,7 +220,7 @@ test.describe("Example test suite", () => {
   });
 
   [1, 2].forEach((i) => {
-    test.skip(`verify service available flow - step 5 - all fields required ${i} @priority=p0 @testcase=TC-011`, async ({
+    test(`verify service available flow - step 5 - all fields required ${i} @priority=p0 @testcase=TC-011`, async ({
       basePage,
     }) => {
       await basePage.openBasePage();
@@ -253,9 +253,7 @@ test.describe("Example test suite", () => {
   });
 
   [1, 2].forEach((i) => {
-    test.skip(`verify service available flow - progress update ${i} @priority=p0 @testcase=TC-012`, async ({
-      basePage,
-    }) => {
+    test(`verify service available flow - progress update ${i} @priority=p0 @testcase=TC-012`, async ({ basePage }) => {
       await basePage.openBasePage();
       const contactForm = await basePage.getContactForm(i);
       await contactForm.fillInputField(serviceAvailableZIP);
@@ -298,7 +296,7 @@ test.describe("Example test suite", () => {
     });
   });
 
-  test.skip(`validate phone field @priority=p0 @testcase=TC-013`, async ({ basePage }) => {
+  test(`validate phone field @priority=p0 @testcase=TC-013`, async ({ basePage }) => {
     await basePage.openBasePage();
     const contactForm = await basePage.getContactForm(1);
     await contactForm.fillInputField(serviceAvailableZIP);
