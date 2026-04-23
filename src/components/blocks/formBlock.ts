@@ -131,7 +131,7 @@ export class FormBlock extends BaseBlock {
     return progressBarState ? progressBarState : "";
   }
 
-  public async chooseQuizCardByindex(index: number): Promise<void> {
+  public async chooseQuizCardByIndex(index: number): Promise<void> {
     const quizCard = this.activeForm.locator(this.quizCardsSelector).nth(index);
     await expect(quizCard).toBeVisible();
     await quizCard.click();

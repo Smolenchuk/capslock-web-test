@@ -235,3 +235,4 @@ Description: It is not possible to enter the digit “1” into the phone field 
 - Review current approach against other landing pages to find weak points
 - Add connection to ALM system to post test execution results, update stories statuses, skip tests if they are blocked with by issues
 - Review and improve linting rules
+- Review way to store data that used in tests, like error messages, headers etc.

@@ -149,7 +149,7 @@ test.describe("Example test suite", () => {
       await contactForm.submitForm();
 
       await contactForm.chooseFormByName("why_interested");
-      expect(await contactForm.getTitle()).toBe(`Why are you interested in a walk-in tub?\n(select all that apply)`);
+      expect(await contactForm.getTitle()).toBe(`Why are you interested in a walk-in tub? (select all that apply)`);
       expect(await contactForm.getSubmitButtonName()).toBe(`Next`);
       await contactForm.submitForm();
 
@@ -170,7 +170,7 @@ test.describe("Example test suite", () => {
 
       await contactForm.chooseFormByName("why_interested");
       expect(await contactForm.getTitle()).toBe(`Why are you interested in a walk-in tub? (select all that apply)`);
-      await contactForm.chooseQuizCardByindex(0);
+      await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
       await contactForm.chooseFormByName("type_of_property");
@@ -194,12 +194,12 @@ test.describe("Example test suite", () => {
       await contactForm.submitForm();
 
       await contactForm.chooseFormByName("why_interested");
-      await contactForm.chooseQuizCardByindex(0);
+      await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
       await contactForm.chooseFormByName("type_of_property");
       expect(await contactForm.getTitle()).toBe(`What type of property is this for?`);
-      await contactForm.chooseQuizCardByindex(0);
+      await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
       await contactForm.chooseFormByName("name_and_email");
@@ -229,11 +229,11 @@ test.describe("Example test suite", () => {
       await contactForm.submitForm();
 
       await contactForm.chooseFormByName("why_interested");
-      await contactForm.chooseQuizCardByindex(0);
+      await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
       await contactForm.chooseFormByName("type_of_property");
-      await contactForm.chooseQuizCardByindex(0);
+      await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
       await contactForm.chooseFormByName("name_and_email");
@@ -264,7 +264,7 @@ test.describe("Example test suite", () => {
       expect.soft(await contactForm.getProgressBarState()).toBe(`40%`);
 
       await contactForm.chooseFormByName("why_interested");
-      await contactForm.chooseQuizCardByindex(0);
+      await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
@@ -272,7 +272,7 @@ test.describe("Example test suite", () => {
       expect.soft(await contactForm.getProgressBarState()).toBe(`60%`);
 
       await contactForm.chooseFormByName("type_of_property");
-      await contactForm.chooseQuizCardByindex(0);
+      await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
@@ -303,11 +303,11 @@ test.describe("Example test suite", () => {
     await contactForm.submitForm();
 
     await contactForm.chooseFormByName("why_interested");
-    await contactForm.chooseQuizCardByindex(0);
+    await contactForm.chooseQuizCardByIndex(0);
     await contactForm.submitForm();
 
     await contactForm.chooseFormByName("type_of_property");
-    await contactForm.chooseQuizCardByindex(0);
+    await contactForm.chooseQuizCardByIndex(0);
     await contactForm.submitForm();
 
     await contactForm.chooseFormByName("name_and_email");
