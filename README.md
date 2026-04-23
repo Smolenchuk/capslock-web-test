@@ -229,6 +229,7 @@ Description: It is not possible to enter the digit “1” into the phone field 
 
 ## What To Improve
 
+- Improve logging for test failures to have clear understanding what went wrong
 - Switch to Allure report instead of Playwright's default
 - Improve and extend basic verification of blocks components
 - Review current approach against other landing pages to find weak points
