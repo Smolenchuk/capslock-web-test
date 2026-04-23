@@ -121,7 +121,7 @@ export class FormBlock extends BaseBlock {
 
   public async getProgressStepText(): Promise<string> {
     const progressStepText = await this.parentElement.locator(this.progressStepSelector).innerText();
-    return progressStepText;
+    return progressStepText.trim() || "";
   }
 
   public async getProgressBarState(): Promise<string> {
