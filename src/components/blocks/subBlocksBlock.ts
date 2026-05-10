@@ -3,9 +3,11 @@ import { BaseBlock } from "../base/BaseBlock";
 import { BaseSection } from "../base/BaseSection";
 
 export class SubBlocksBlock extends BaseBlock {
+  private readonly subBlocksSelector: string = `[class*="expectedStructureClass"]:not([class*="__"])`;
+
   public async verifyBlock(expectedStructure: any): Promise<void> {
     const subBlocks = this.parentElement.locator(
-      `xpath=.//*[contains(@class,"${expectedStructure.class}") and not(contains(@class,"__"))]`,
+      this.subBlocksSelector.replaceAll("expectedStructureClass", expectedStructure.class),
     );
     if (expectedStructure.number) {
       const count = await subBlocks.count();

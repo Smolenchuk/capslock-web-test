@@ -1,27 +1,23 @@
-import { expect } from "@playwright/test";
+import { Locator, expect } from "@playwright/test";
 import { BaseBlock } from "../base/BaseBlock";
 
 export class ReviewsBlock extends BaseBlock {
-  private readonly reviewWrapSelector: string = "xpath=.//*[contains(@class,'reviewWrap')]";
-  private readonly reviewSelector: string = "xpath=.//div[contains(@class, 'review')]";
-  private readonly hiddenReviewsSelector: string = "xpath=.//div[contains(@class, 'reviewFull')]";
-  private readonly moreLessSelector: string = "xpath=.//div[contains(@class, 'moreless')]";
+  private readonly reviewWrap: Locator = this.parentElement.locator("[class*='reviewWrap']").first();
+  private readonly reviews: Locator = this.reviewWrap.locator(".review");
+  private readonly hiddenReviews: Locator = this.reviewWrap.locator(".reviewFull");
+  private readonly moreLess: Locator = this.reviewWrap.locator(".moreless").first();
 
   public async verifyBlock(_expectedStructure: any): Promise<void> {
-    const reviewWrap = this.parentElement.locator(this.reviewWrapSelector).first();
-    await expect(reviewWrap).toBeVisible();
+    await expect(this.reviewWrap).toBeVisible();
 
-    const visibleReviews = reviewWrap.locator(this.reviewSelector);
-    expect(await visibleReviews.count()).toBeGreaterThan(0);
+    expect(await this.reviews.count()).toBeGreaterThan(0);
 
     // Verify "Show more" expands hidden reviews
-    const hiddenSection = reviewWrap.locator(this.hiddenReviewsSelector);
-    await expect(hiddenSection).toBeHidden();
+    await expect(this.hiddenReviews).toBeHidden();
 
-    const moreLess = reviewWrap.locator(this.moreLessSelector);
-    await expect(moreLess).toBeVisible();
-    await moreLess.click();
+    await expect(this.moreLess).toBeVisible();
+    await this.moreLess.click();
 
-    await expect(hiddenSection).toBeVisible();
+    await expect(this.hiddenReviews).toBeVisible();
   }
 }

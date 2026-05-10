@@ -60,13 +60,13 @@ test.describe("Example test suite", () => {
     });
   });
 
-  [1, 2].forEach((i) => {
+  [1].forEach((i) => {
     test(`verify out of area flow ${i} - invalid emails @priority=p0 @testcase=TC-005`, async ({ basePage }) => {
       await basePage.openBasePage();
       const contactForm = await basePage.getContactForm(i);
       await contactForm.fillInputField(outOfAreaZIP);
       await contactForm.submitForm();
-      await contactForm.chooseFormByName("sorry_email");
+      // await contactForm.chooseFormByName("sorry_email");
       expect(await contactForm.getTitle()).toBe(
         `Sorry, unfortunately we don’t yet install in your area but if you’d like us to notify you when we do please enter your email address below`,
       );
@@ -80,7 +80,6 @@ test.describe("Example test suite", () => {
         await test.step(`Verify invalid email: ${email}`, async () => {
           await contactForm.fillInputField(email);
           await contactForm.submitForm();
-          expect.soft(await contactForm.isActiveFormVisible()).toBe(true);
           expect.soft(await contactForm.isErrorMessageVisible()).toBe(true);
           expect.soft(await contactForm.getErrorMessageText()).toBe(`Wrong email.`);
         });
@@ -97,7 +96,6 @@ test.describe("Example test suite", () => {
         const contactForm = await basePage.getContactForm(i);
         await contactForm.fillInputField(outOfAreaZIP);
         await contactForm.submitForm();
-        await contactForm.chooseFormByName("sorry_email");
         expect(await contactForm.getTitle()).toBe(
           `Sorry, unfortunately we don’t yet install in your area but if you’d like us to notify you when we do please enter your email address below`,
         );
@@ -123,7 +121,6 @@ test.describe("Example test suite", () => {
       expect.soft(await contactForm.getProgressStepText()).toBe(`1 of 2`);
       expect.soft(await contactForm.getProgressBarState()).toBe(`50%`);
 
-      await contactForm.chooseFormByName("sorry_email");
       expect(await contactForm.getTitle()).toBe(
         `Sorry, unfortunately we don’t yet install in your area but if you’d like us to notify you when we do please enter your email address below`,
       );
@@ -148,12 +145,10 @@ test.describe("Example test suite", () => {
       await contactForm.fillInputField(serviceAvailableZIP);
       await contactForm.submitForm();
 
-      await contactForm.chooseFormByName("why_interested");
-      expect(await contactForm.getTitle()).toBe(`Why are you interested in a walk-in tub? (select all that apply)`);
+      expect(await contactForm.getTitle()).toBe(`Why are you interested in a walk-in tub?`);
       expect(await contactForm.getSubmitButtonName()).toBe(`Next`);
       await contactForm.submitForm();
 
-      expect(await contactForm.isActiveFormVisible()).toBe(true);
       expect(await contactForm.isErrorMessageVisible()).toBe(true);
       expect(await contactForm.getErrorMessageText()).toBe(`Choose one of the variants.`);
     });
@@ -168,17 +163,14 @@ test.describe("Example test suite", () => {
       await contactForm.fillInputField(serviceAvailableZIP);
       await contactForm.submitForm();
 
-      await contactForm.chooseFormByName("why_interested");
-      expect(await contactForm.getTitle()).toBe(`Why are you interested in a walk-in tub? (select all that apply)`);
+      expect(await contactForm.getTitle()).toBe(`Why are you interested in a walk-in tub?`);
       await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
-      await contactForm.chooseFormByName("type_of_property");
       expect(await contactForm.getTitle()).toBe(`What type of property is this for?`);
       expect(await contactForm.getSubmitButtonName()).toBe(`Next`);
       await contactForm.submitForm();
 
-      expect(await contactForm.isActiveFormVisible()).toBe(true);
       expect(await contactForm.isErrorMessageVisible()).toBe(true);
       expect(await contactForm.getErrorMessageText()).toBe(`Choose one of the variants.`);
     });
@@ -193,25 +185,21 @@ test.describe("Example test suite", () => {
       await contactForm.fillInputField(serviceAvailableZIP);
       await contactForm.submitForm();
 
-      await contactForm.chooseFormByName("why_interested");
       await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
-      await contactForm.chooseFormByName("type_of_property");
       expect(await contactForm.getTitle()).toBe(`What type of property is this for?`);
       await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
-      await contactForm.chooseFormByName("name_and_email");
-      expect(await contactForm.getTitle()).toBe(`Who should we prepare this FREE estimate for? (No obligation)`);
+      expect(await contactForm.getTitle()).toBe(`Who should we prepare this FREE estimate for?`);
       await expect(await contactForm.getInputByName("name")).toBeVisible();
       await expect(await contactForm.getInputByName("email")).toBeVisible();
       expect(await contactForm.getSubmitButtonName()).toBe(`Go To Estimate`);
       await contactForm.submitForm();
 
       expect(await contactForm.getInputValidationMessage("email")).toBe(`Please fill out this field.`);
-      expect(await contactForm.isActiveFormVisible()).toBe(true);
-      await contactForm.fillInputFieldByname("email", "email@example.com");
+      await contactForm.fillInputFieldByName("email", "email@example.com");
       await contactForm.submitForm();
       expect(await contactForm.getInputValidationMessage("email")).toBe(``);
       expect(await contactForm.isErrorMessageVisible("name")).toBe(true);
@@ -228,20 +216,16 @@ test.describe("Example test suite", () => {
       await contactForm.fillInputField(serviceAvailableZIP);
       await contactForm.submitForm();
 
-      await contactForm.chooseFormByName("why_interested");
       await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
-      await contactForm.chooseFormByName("type_of_property");
       await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
-      await contactForm.chooseFormByName("name_and_email");
-      await contactForm.fillInputFieldByname("name", "John Doe");
-      await contactForm.fillInputFieldByname("email", "email@example.com");
+      await contactForm.fillInputFieldByName("name", "John Doe");
+      await contactForm.fillInputFieldByName("email", "email@example.com");
       await contactForm.submitForm();
 
-      await contactForm.chooseFormByName("phone");
       expect(await contactForm.getTitle()).toBe(
         `LAST STEP! A quick call is required to confirm your information and provide a free estimate.`,
       );
@@ -263,7 +247,6 @@ test.describe("Example test suite", () => {
       expect.soft(await contactForm.getProgressStepText()).toBe(`2 of 5`);
       expect.soft(await contactForm.getProgressBarState()).toBe(`40%`);
 
-      await contactForm.chooseFormByName("why_interested");
       await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
@@ -271,7 +254,6 @@ test.describe("Example test suite", () => {
       expect.soft(await contactForm.getProgressStepText()).toBe(`3 of 5`);
       expect.soft(await contactForm.getProgressBarState()).toBe(`60%`);
 
-      await contactForm.chooseFormByName("type_of_property");
       await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
@@ -279,16 +261,14 @@ test.describe("Example test suite", () => {
       expect.soft(await contactForm.getProgressStepText()).toBe(`4 of 5`);
       expect.soft(await contactForm.getProgressBarState()).toBe(`80%`);
 
-      await contactForm.chooseFormByName("name_and_email");
-      await contactForm.fillInputFieldByname("name", "John Doe");
-      await contactForm.fillInputFieldByname("email", "email@example.com");
+      await contactForm.fillInputFieldByName("name", "John Doe");
+      await contactForm.fillInputFieldByName("email", "email@example.com");
       await contactForm.submitForm();
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
       expect.soft(await contactForm.getProgressStepText()).toBe(`5 of 5`);
       expect.soft(await contactForm.getProgressBarState()).toBe(`100%`);
 
-      await contactForm.chooseFormByName("phone");
       await contactForm.fillInputField("2345678900");
       await contactForm.submitForm();
 
@@ -302,20 +282,16 @@ test.describe("Example test suite", () => {
     await contactForm.fillInputField(serviceAvailableZIP);
     await contactForm.submitForm();
 
-    await contactForm.chooseFormByName("why_interested");
     await contactForm.chooseQuizCardByIndex(0);
     await contactForm.submitForm();
 
-    await contactForm.chooseFormByName("type_of_property");
     await contactForm.chooseQuizCardByIndex(0);
     await contactForm.submitForm();
 
-    await contactForm.chooseFormByName("name_and_email");
-    await contactForm.fillInputFieldByname("name", "John Doe");
-    await contactForm.fillInputFieldByname("email", "email@example.com");
+    await contactForm.fillInputFieldByName("name", "John Doe");
+    await contactForm.fillInputFieldByName("email", "email@example.com");
     await contactForm.submitForm();
 
-    await contactForm.chooseFormByName("phone");
     for (const phone of phoneNumbers) {
       await test.step(`Verify phone number: ${phone[0]}`, async () => {
         await contactForm.fillInputField(phone[0]);

@@ -1,22 +1,26 @@
 import { Locator, expect } from "@playwright/test";
 import { BaseBlock } from "../base/BaseBlock";
+import { ActiveLocator } from "../../types/ActiveLocator";
 
 export class FormBlock extends BaseBlock {
-  private readonly formSelector: string = "xpath=.//form";
-  private readonly titleSelector: string =
-    'xpath=/ancestor::div[contains(@class, "steps ")]//div[contains(@class, "stepTitle ")]';
-  private readonly inputSelector: string = 'xpath=.//input[contains(@class, "inputBlock__input")]';
-  private readonly submitSelector: string = 'xpath=.//button[@type="submit"]';
-  private readonly dataErrorBlockSelector: string = "xpath=.//div[@data-error-block]";
-  private readonly stepProgressSelector: string = "xpath=.//div[contains(@class, 'stepProgress ')]";
-  private readonly progressStepSelector: string = "xpath=.//div[@class='stepProgress__step']";
-  private readonly progressbarSelector: string = "xpath=.//div[@data-form-progress-value]";
-  private readonly quizCardsSelector: string = "xpath=.//div[contains(@class, 'quizCard ')]";
+  private readonly currentStepSelector: string = ".steps:visible";
+  private readonly titleSelector: string = ".stepTitle__hdr:visible";
+  private readonly inputSelector: string = ".inputBlock__input:visible";
+  private readonly submitSelector: string = 'button[type="submit"]:visible';
+  private readonly form: Locator = this.parentElement.locator("form");
+
+  private readonly dataErrorBlockSelector: string = "[data-error-block]";
+  private readonly stepProgressSelector: string = "[class*='stepProgress ']";
+  private readonly progressStepSelector: string = "[class='stepProgress__step']";
+  private readonly progressbarSelector: string = "[data-form-progress-value]";
+  private readonly quizCardsSelector: string = "[class*='quizCard']";
   private activeForm: Locator;
+  private currentStep: ActiveLocator;
 
   constructor(parentElement: Locator) {
     super(parentElement);
-    this.activeForm = this.parentElement.locator(this.formSelector).first();
+    this.activeForm = this.form.first();
+    this.currentStep = { locator: this.parentElement.locator(this.currentStepSelector).first(), isStale: true };
   }
 
   public async verifyBlock(expectedStructure: any): Promise<void> {
@@ -26,15 +30,15 @@ export class FormBlock extends BaseBlock {
       for (const element of expectedStructure.elements) {
         switch (element) {
           case "title": {
-            await expect(this.activeForm.locator(this.titleSelector).first()).toBeVisible();
+            await expect(await this.getTitleElement()).toBeVisible();
             break;
           }
           case "input": {
-            await expect(this.activeForm.locator(this.inputSelector).first()).toBeVisible();
+            await expect(await this.getInputElement()).toBeVisible();
             break;
           }
           case "submit": {
-            await expect(this.activeForm.locator(this.submitSelector).first()).toBeVisible();
+            await expect(await this.getSubmitButton()).toBeVisible();
             break;
           }
         }
@@ -42,75 +46,88 @@ export class FormBlock extends BaseBlock {
     }
   }
 
-  public async chooseFormByName(formName: string): Promise<void> {
-    this.activeForm = this.parentElement.locator(`xpath=.//form[@name="${formName}"]`).first();
-    await expect(this.activeForm).toBeVisible();
+  private async getCurrentStep(): Promise<Locator> {
+    if (this.currentStep.isStale === true) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const steps = await this.parentElement.locator(".steps").all();
+      for (const step of steps) {
+        if (await step.isVisible()) {
+          this.currentStep = { locator: step, isStale: false };
+          break;
+        }
+      }
+    }
+    return this.currentStep.locator;
   }
 
-  public async isActiveFormVisible(): Promise<boolean> {
-    return this.activeForm.isVisible();
+  public async getTitleElement(): Promise<Locator> {
+    const titleElement = (await this.getCurrentStep()).locator(this.titleSelector);
+    return titleElement;
+  }
+
+  public async getInputElement(): Promise<Locator> {
+    const inputElement = (await this.getCurrentStep()).locator(this.inputSelector).first();
+    return inputElement;
+  }
+
+  public async getSubmitButton(): Promise<Locator> {
+    const submitButton = (await this.getCurrentStep()).locator(this.submitSelector).first();
+    return submitButton;
   }
 
   public async getTitle(): Promise<string> {
-    const titleElement = this.activeForm.locator(this.titleSelector).first();
-    await expect(titleElement).toBeVisible();
-    return (await titleElement.innerText()).trim().replace(/\s+/g, " "); // Replace multiple spaces/newlines with single space
+    const titleElement = await this.getTitleElement();
+    return ((await titleElement.textContent()) || "").trim().replace(/\s+/g, " ");
   }
 
   public async getInputPlaceholder(): Promise<string> {
-    const inputElement = this.activeForm.locator(this.inputSelector).first();
-    await expect(inputElement).toBeVisible();
+    const inputElement = await this.getInputElement();
     return (await inputElement.getAttribute("placeholder")) || "";
   }
 
   public async getSubmitButtonName(): Promise<string> {
-    const submitElement = this.activeForm.locator(this.submitSelector).first();
-    await expect(submitElement).toBeVisible();
-    return (await submitElement.innerText()).trim();
+    const submitButton = await this.getSubmitButton();
+    return (await submitButton.innerText()).trim();
   }
 
   public async submitForm(): Promise<void> {
-    const submitElement = this.activeForm.locator(this.submitSelector).first();
-    await submitElement.click();
+    const submitButton = await this.getSubmitButton();
+    await submitButton.click();
+    this.currentStep.isStale = true;
+  }
+
+  private async getErrorElement(inputName?: string): Promise<Locator> {
+    if (inputName) {
+      const inputBlock = (await this.getCurrentStep())
+        .locator(`input[name="${inputName}"]`)
+        .locator('xpath=ancestor::div[contains(@class, "inputBlock")]')
+        .first();
+
+      return inputBlock.locator(this.dataErrorBlockSelector);
+    } else {
+      return (await this.getCurrentStep()).locator(this.dataErrorBlockSelector).first();
+    }
   }
 
   public async isErrorMessageVisible(inputName?: string): Promise<boolean> {
-    let errorElement: Locator;
-    if (inputName) {
-      const inputElement = this.activeForm.locator(`xpath=.//input[@name="${inputName}"]`).first();
-      const inputBlock = inputElement.locator("xpath=/ancestor::div[contains(@class, 'inputBlock ')]");
-      errorElement = inputBlock.locator(this.dataErrorBlockSelector).first();
-      await expect(inputElement).toBeVisible();
-    } else {
-      errorElement = this.activeForm.locator(this.dataErrorBlockSelector).first();
-    }
+    const errorElement = await this.getErrorElement(inputName);
     return errorElement.isVisible();
   }
 
   public async getErrorMessageText(inputName?: string): Promise<string> {
-    let errorElement: Locator;
-    if (inputName) {
-      const inputElement = this.activeForm.locator(`xpath=.//input[@name="${inputName}"]`).first();
-      const inputBlock = inputElement.locator("xpath=/ancestor::div[contains(@class, 'inputBlock ')]");
-      errorElement = inputBlock.locator(this.dataErrorBlockSelector).first();
-      await expect(inputElement).toBeVisible();
-    } else {
-      errorElement = this.activeForm.locator(this.dataErrorBlockSelector).first();
-    }
-    await expect(errorElement).toBeVisible();
+    const errorElement = await this.getErrorElement(inputName);
     return (await errorElement.innerText()).trim();
   }
 
   public async fillInputField(value: string): Promise<void> {
-    const inputElement = this.activeForm.locator(this.inputSelector).first();
+    const inputElement = await this.getInputElement();
     await expect(inputElement).toBeVisible();
     await inputElement.fill(value);
   }
 
   public async getInputFieldValue(): Promise<string> {
-    const inputElement = this.activeForm.locator(this.inputSelector).first();
-    await expect(inputElement).toBeVisible();
-    return inputElement.inputValue();
+    const inputElement = await this.getInputElement();
+    return (await inputElement.inputValue()).trim();
   }
 
   public async isStepProgressVisible(): Promise<boolean> {
@@ -132,18 +149,18 @@ export class FormBlock extends BaseBlock {
   }
 
   public async chooseQuizCardByIndex(index: number): Promise<void> {
-    const quizCard = this.activeForm.locator(this.quizCardsSelector).nth(index);
+    const quizCard = (await this.getCurrentStep()).locator(this.quizCardsSelector).nth(index);
     await expect(quizCard).toBeVisible();
     await quizCard.click();
   }
 
   public async getInputByName(inputName: string): Promise<Locator> {
-    const inputElement = this.activeForm.locator(`xpath=.//input[@name="${inputName}"]`).first();
+    const inputElement = (await this.getCurrentStep()).locator(`input[name="${inputName}"]`).first();
     await expect(inputElement).toBeVisible();
     return inputElement;
   }
 
-  public async fillInputFieldByname(inputName: string, value: string): Promise<void> {
+  public async fillInputFieldByName(inputName: string, value: string): Promise<void> {
     const inputElement = await this.getInputByName(inputName);
     await inputElement.fill(value);
   }

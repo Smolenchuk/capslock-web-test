@@ -1,20 +1,18 @@
-import { expect } from "@playwright/test";
+import { Locator, expect } from "@playwright/test";
 import { BaseBlock } from "../base/BaseBlock";
 
 export class ListBlock extends BaseBlock {
-  private readonly listSelector: string = 'xpath=.//*[contains(@class,"blockList ")]';
-  private readonly listItemSelector: string = 'xpath=.//li[contains(@class, "blockList__item")]';
+  private readonly list: Locator = this.parentElement.locator('[class*="blockList"][class*=" "]').first();
+  private readonly listItems: Locator = this.list.locator('[class*="blockList__item"]');
 
   public async verifyBlock(expectedStructure: any): Promise<void> {
-    const list = this.parentElement.locator(this.listSelector).first();
-    await expect(list).toBeVisible();
+    await expect(this.list).toBeVisible();
 
     if (expectedStructure.items && Array.isArray(expectedStructure.items)) {
-      const items = list.locator(this.listItemSelector);
-      const count = await items.count();
+      const count = await this.listItems.count();
       expect(count).toBe(expectedStructure.items.length);
       for (let i = 0; i < expectedStructure.items.length; i++) {
-        await expect(items.nth(i)).toContainText(expectedStructure.items[i]);
+        await expect(this.listItems.nth(i)).toContainText(expectedStructure.items[i]);
       }
     }
   }
