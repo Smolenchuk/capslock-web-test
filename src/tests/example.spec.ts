@@ -6,11 +6,9 @@ import { validEmails } from "../constants/validEmails";
 import { invalidEmails } from "../constants/invalidEmails";
 import { invalidZips } from "../constants/invalidZips";
 import { phoneNumbers } from "../constants/phoneNumbers";
+import { USER, ZIP_CODES } from "../constants/constants";
 
 test.describe("Example test suite", () => {
-  const serviceAvailableZIP = "68901";
-  const outOfAreaZIP = "11111";
-
   // eslint-disable-next-line playwright/expect-expect -- assertions inside verifySection
   test("Verify page structure @priority=p0 @testcase=TC-001", async ({ basePage }) => {
     await basePage.openBasePage();
@@ -60,13 +58,12 @@ test.describe("Example test suite", () => {
     });
   });
 
-  [1].forEach((i) => {
+  [1, 2].forEach((i) => {
     test(`verify out of area flow ${i} - invalid emails @priority=p0 @testcase=TC-005`, async ({ basePage }) => {
       await basePage.openBasePage();
       const contactForm = await basePage.getContactForm(i);
-      await contactForm.fillInputField(outOfAreaZIP);
+      await contactForm.fillInputField(ZIP_CODES.OUT_OF_AREA);
       await contactForm.submitForm();
-      // await contactForm.chooseFormByName("sorry_email");
       expect(await contactForm.getTitle()).toBe(
         `Sorry, unfortunately we don’t yet install in your area but if you’d like us to notify you when we do please enter your email address below`,
       );
@@ -94,7 +91,7 @@ test.describe("Example test suite", () => {
       }) => {
         await basePage.openBasePage();
         const contactForm = await basePage.getContactForm(i);
-        await contactForm.fillInputField(outOfAreaZIP);
+        await contactForm.fillInputField(ZIP_CODES.OUT_OF_AREA);
         await contactForm.submitForm();
         expect(await contactForm.getTitle()).toBe(
           `Sorry, unfortunately we don’t yet install in your area but if you’d like us to notify you when we do please enter your email address below`,
@@ -114,7 +111,7 @@ test.describe("Example test suite", () => {
       await basePage.openBasePage();
       const contactForm = await basePage.getContactForm(i);
       expect(await contactForm.isStepProgressVisible()).toBe(false);
-      await contactForm.fillInputField(outOfAreaZIP);
+      await contactForm.fillInputField(ZIP_CODES.OUT_OF_AREA);
       await contactForm.submitForm();
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
@@ -124,7 +121,7 @@ test.describe("Example test suite", () => {
       expect(await contactForm.getTitle()).toBe(
         `Sorry, unfortunately we don’t yet install in your area but if you’d like us to notify you when we do please enter your email address below`,
       );
-      await contactForm.fillInputField("email@example.com");
+      await contactForm.fillInputField(USER.EMAIL);
       await contactForm.submitForm();
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
@@ -142,7 +139,7 @@ test.describe("Example test suite", () => {
     }) => {
       await basePage.openBasePage();
       const contactForm = await basePage.getContactForm(i);
-      await contactForm.fillInputField(serviceAvailableZIP);
+      await contactForm.fillInputField(ZIP_CODES.SERVICE_AVAILABLE);
       await contactForm.submitForm();
 
       expect(await contactForm.getTitle()).toBe(`Why are you interested in a walk-in tub?`);
@@ -160,7 +157,7 @@ test.describe("Example test suite", () => {
     }) => {
       await basePage.openBasePage();
       const contactForm = await basePage.getContactForm(i);
-      await contactForm.fillInputField(serviceAvailableZIP);
+      await contactForm.fillInputField(ZIP_CODES.SERVICE_AVAILABLE);
       await contactForm.submitForm();
 
       expect(await contactForm.getTitle()).toBe(`Why are you interested in a walk-in tub?`);
@@ -182,7 +179,7 @@ test.describe("Example test suite", () => {
     }) => {
       await basePage.openBasePage();
       const contactForm = await basePage.getContactForm(i);
-      await contactForm.fillInputField(serviceAvailableZIP);
+      await contactForm.fillInputField(ZIP_CODES.SERVICE_AVAILABLE);
       await contactForm.submitForm();
 
       await contactForm.chooseQuizCardByIndex(0);
@@ -199,7 +196,7 @@ test.describe("Example test suite", () => {
       await contactForm.submitForm();
 
       expect(await contactForm.getInputValidationMessage("email")).toBe(`Please fill out this field.`);
-      await contactForm.fillInputFieldByName("email", "email@example.com");
+      await contactForm.fillInputFieldByName("email", USER.EMAIL);
       await contactForm.submitForm();
       expect(await contactForm.getInputValidationMessage("email")).toBe(``);
       expect(await contactForm.isErrorMessageVisible("name")).toBe(true);
@@ -213,7 +210,7 @@ test.describe("Example test suite", () => {
     }) => {
       await basePage.openBasePage();
       const contactForm = await basePage.getContactForm(i);
-      await contactForm.fillInputField(serviceAvailableZIP);
+      await contactForm.fillInputField(ZIP_CODES.SERVICE_AVAILABLE);
       await contactForm.submitForm();
 
       await contactForm.chooseQuizCardByIndex(0);
@@ -222,8 +219,8 @@ test.describe("Example test suite", () => {
       await contactForm.chooseQuizCardByIndex(0);
       await contactForm.submitForm();
 
-      await contactForm.fillInputFieldByName("name", "John Doe");
-      await contactForm.fillInputFieldByName("email", "email@example.com");
+      await contactForm.fillInputFieldByName("name", USER.NAME);
+      await contactForm.fillInputFieldByName("email", USER.EMAIL);
       await contactForm.submitForm();
 
       expect(await contactForm.getTitle()).toBe(
@@ -240,7 +237,7 @@ test.describe("Example test suite", () => {
     test(`verify service available flow - progress update ${i} @priority=p0 @testcase=TC-012`, async ({ basePage }) => {
       await basePage.openBasePage();
       const contactForm = await basePage.getContactForm(i);
-      await contactForm.fillInputField(serviceAvailableZIP);
+      await contactForm.fillInputField(ZIP_CODES.SERVICE_AVAILABLE);
       await contactForm.submitForm();
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
@@ -261,8 +258,8 @@ test.describe("Example test suite", () => {
       expect.soft(await contactForm.getProgressStepText()).toBe(`4 of 5`);
       expect.soft(await contactForm.getProgressBarState()).toBe(`80%`);
 
-      await contactForm.fillInputFieldByName("name", "John Doe");
-      await contactForm.fillInputFieldByName("email", "email@example.com");
+      await contactForm.fillInputFieldByName("name", USER.NAME);
+      await contactForm.fillInputFieldByName("email", USER.EMAIL);
       await contactForm.submitForm();
 
       expect.soft(await contactForm.isStepProgressVisible()).toBe(true);
@@ -279,7 +276,7 @@ test.describe("Example test suite", () => {
   test(`validate phone field @priority=p0 @testcase=TC-013`, async ({ basePage }) => {
     await basePage.openBasePage();
     const contactForm = await basePage.getContactForm(1);
-    await contactForm.fillInputField(serviceAvailableZIP);
+    await contactForm.fillInputField(ZIP_CODES.SERVICE_AVAILABLE);
     await contactForm.submitForm();
 
     await contactForm.chooseQuizCardByIndex(0);
@@ -288,8 +285,8 @@ test.describe("Example test suite", () => {
     await contactForm.chooseQuizCardByIndex(0);
     await contactForm.submitForm();
 
-    await contactForm.fillInputFieldByName("name", "John Doe");
-    await contactForm.fillInputFieldByName("email", "email@example.com");
+    await contactForm.fillInputFieldByName("name", USER.NAME);
+    await contactForm.fillInputFieldByName("email", USER.EMAIL);
     await contactForm.submitForm();
 
     for (const phone of phoneNumbers) {
